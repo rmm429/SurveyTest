@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Survey implements Serializable
 {
@@ -12,6 +13,7 @@ public class Survey implements Serializable
     protected String name;
     protected Menu menu = new MenuSurveyTestMain();
     protected ArrayList<Question> questions = new ArrayList<Question>();
+    protected String QuestionType;
 
     public Survey()
     {
@@ -42,16 +44,30 @@ public class Survey implements Serializable
 
     public void Create()
     {
-        if (GetMenu().GetType().equals("Survey"))
+
+        String CurName = "";
+
+        while (CurName.equals(""))
         {
-            ConsoleManager.getInstance().Display("Enter the name for your Survey:");
-        }
-        else if (GetMenu().GetType().equals("Test"))
-        {
-            ConsoleManager.getInstance().Display("Enter the name for your Test:");
+            if (GetMenu().GetType().equals("Survey"))
+            {
+                ConsoleManager.getInstance().Display("Enter the name for your Survey:");
+            }
+            else if (GetMenu().GetType().equals("Test"))
+            {
+                ConsoleManager.getInstance().Display("Enter the name for your Test:");
+            }
+
+            CurName = ConsoleManager.getInstance().Read();
+
+            if (CurName.equals(""))
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
         }
 
-        SetName(ConsoleManager.getInstance().Read());
+        SetName(CurName);
         SetMenu(new MenuCreate());
     }
 
@@ -60,30 +76,40 @@ public class Survey implements Serializable
         SetMenu(new MenuDisplay());
     }
 
-    public void DisplayQuestionType(String ClassName)
+    public void SetQuestionType(String ClassName)
     {
+
+        String qt = "";
+
         switch(ClassName)
         {
             case "Essay":
-                ConsoleManager.getInstance().Display("Essay");
+                qt = "Essay";
                 break;
             case "Matching":
-                ConsoleManager.getInstance().Display("Matching");
+                qt = "Matching";
                 break;
             case "MultipleChoice":
-                ConsoleManager.getInstance().Display("Multiple Choice");
+                qt = "Multiple Choice";
                 break;
             case "Ranking":
-                ConsoleManager.getInstance().Display("Ranking");
+                qt = "Ranking";
                 break;
             case "ShortAnswer":
-                ConsoleManager.getInstance().Display("Short Answer");
+                qt = "Short Answer";
                 break;
             case "TrueFalse":
-                ConsoleManager.getInstance().Display("True/False");
+                qt = "True/False";
                 break;
-
         }
+
+        QuestionType = qt;
+
+    }
+
+    public String GetQuestionType()
+    {
+        return QuestionType;
     }
 
     public void DisplaySurvey()
@@ -98,7 +124,8 @@ public class Survey implements Serializable
         {
             QuestionsNum++;
             ConsoleManager.getInstance().Display("Question #" + QuestionsNum);
-            DisplayQuestionType(q.getClass().getName());
+            SetQuestionType(q.getClass().getName());
+            ConsoleManager.getInstance().Display(GetQuestionType());
             ConsoleManager.getInstance().Display("");
             q.Display();
         }
@@ -148,6 +175,180 @@ public class Survey implements Serializable
 
     }
 
+    public void Modify()
+    {
+        SetMenu(new MenuModify());
+    }
+
+    public void ModifySurvey()
+    {
+
+        Question SelectedQuestion = null;
+        int QuestionNum = 0;
+
+        while (SelectedQuestion == null)
+        {
+            try
+            {
+                if (GetQuestions().size() == 1)
+                {
+                    QuestionNum = 0;
+                }
+                else
+                {
+                    ConsoleManager.getInstance().Display("What question do you wish to modify (1-" + GetQuestions().size() + "):");
+                    ConsoleManager.getInstance().Display("");
+                    DisplayQuestions();
+                    QuestionNum = Integer.parseInt(ConsoleManager.getInstance().Read()) - 1;
+                }
+
+                SelectedQuestion = GetQuestions().get(QuestionNum);
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            catch (IndexOutOfBoundsException ioobe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+
+        EditQuestion(SelectedQuestion);
+
+
+    }
+
+    public void DisplayQuestions() {
+
+        int i = 1;
+
+        for (Question q : GetQuestions())
+        {
+            SetQuestionType(q.getClass().getName());
+            ConsoleManager.getInstance().Display("Question #" + i + " (" + GetQuestionType() + ")");
+            i++;
+        }
+
+        ConsoleManager.getInstance().Display("");
+
+    }
+
+    public void EditQuestion(Question q)
+    {
+
+        EditPrompt(q);
+
+        if (!GetQuestionType().equals("True/False"))
+        {
+            EditChoices(q);
+        }
+
+    }
+
+    public void EditPrompt(Question q)
+    {
+        ConsoleManager.getInstance().Display("Prompt: " + q.GetPrompt().GetPrompt());
+        ConsoleManager.getInstance().Display("");
+
+        boolean isYN = false;
+        char YN = 0;
+
+        while (isYN == false)
+        {
+            ConsoleManager.getInstance().Display("Do you wish to modify the prompt (Y/N):");
+            String YNString = ConsoleManager.getInstance().Read();
+            YNString = YNString.toUpperCase();
+            YN = YNString.charAt(0);
+
+            if (YN != 'Y' && YN != 'N')
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            else
+            {
+                isYN = true;
+            }
+        }
+
+        if (YN == 'Y')
+        {
+
+            String NewPromptString = "";
+
+            while (NewPromptString.equals(""))
+            {
+                ConsoleManager.getInstance().Display("Enter a new prompt:");
+                NewPromptString = ConsoleManager.getInstance().Read();
+
+                if (NewPromptString.equals(""))
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
+
+            }
+
+            Prompt NewPrompt = new Prompt(NewPromptString);
+
+            q.SetPrompt(NewPrompt);
+
+        }
+    }
+
+    public void EditChoices(Question q)
+    {
+        ConsoleManager.getInstance().Display("Choices:");
+        q.DisplayChoices();
+        ConsoleManager.getInstance().Display("");
+
+        boolean isYN = false;
+        char YN = 0;
+
+        while (isYN == false)
+        {
+            ConsoleManager.getInstance().Display("Do you wish to modify choices (Y/N):");
+            String YNString = ConsoleManager.getInstance().Read();
+            YNString = YNString.toUpperCase();
+            YN = YNString.charAt(0);
+
+            if (YN != 'Y' && YN != 'N')
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            else
+            {
+                isYN = true;
+            }
+        }
+
+        if (YN == 'Y')
+        {
+            q.EditChoice();
+            //********************DO EDIT CHOICES FOR OTHER QUESTIONS***************************
+        }
+
+    }
+
+    public void Take()
+    {
+        SetMenu(new MenuTake());
+    }
+
+    public void Tabulate()
+    {
+        SetMenu(new MenuTabulate());
+    }
+
+    public void Grade()
+    {
+        SetMenu(new MenuGrade());
+    }
+
     public void AddQuestion(Question q)
     {
         questions.add(q);
@@ -170,6 +371,7 @@ public class Survey implements Serializable
         name = null;
         questions.clear();
     }
+
 
     public static Object Copy (Object orig)
     {

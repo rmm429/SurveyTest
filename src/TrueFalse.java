@@ -5,8 +5,8 @@ public class TrueFalse extends MultipleChoice
 
     public void SetChoices()
     {
-        MCChoices.add("True");
-        MCChoices.add("False");
+        AllChoices.add("True");
+        AllChoices.add("False");
 
         if (GetSurveyTestType().equals("Test"))
         {
@@ -27,12 +27,12 @@ public class TrueFalse extends MultipleChoice
             if (TrueFalse.equals("T"))
             {
                 isTrueFalse = true;
-                CorrectChoice = MCChoices.get(0);
+                CorrectChoice = AllChoices.get(0);
             }
             else if (TrueFalse.equals("F"))
             {
                 isTrueFalse = true;
-                CorrectChoice = MCChoices.get(1);
+                CorrectChoice = AllChoices.get(1);
             }
             else
             {

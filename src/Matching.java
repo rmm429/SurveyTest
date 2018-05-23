@@ -130,6 +130,11 @@ public class Matching extends Question
 
     }
 
+    public void EditChoice()
+    {
+
+    }
+
     public void GetCorrectChoices(int terms_defs)
     {
 
@@ -184,11 +189,8 @@ public class Matching extends Question
 
     }
 
-    public void Display()
+    public void DisplayChoices()
     {
-
-        ConsoleManager.getInstance().Display(GetPrompt().GetPrompt());
-
         int TermDefNum = MatchingTerms.size();
 
         for (int i = 0; i < TermDefNum; i++)

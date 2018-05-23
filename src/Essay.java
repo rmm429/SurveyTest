@@ -15,16 +15,18 @@ public class Essay extends Question
 
     }
 
+    public void EditChoice()
+    {
+
+    }
+
     public void GetCorrectChoice()
     {
         CorrectChoice = "NEEDS HAND GRADING";
     }
 
-    public void Display()
+    public void DisplayChoices()
     {
-
-        ConsoleManager.getInstance().Display(GetPrompt().GetPrompt());
-
         ConsoleManager.getInstance().Display("");
 
         if (GetSurveyTestType().equals("Test"))
@@ -33,7 +35,6 @@ public class Essay extends Question
             DisplayCorrectChoice();
 
         }
-
     }
 
     public void DisplayCorrectChoice()

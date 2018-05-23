@@ -31,9 +31,9 @@ public class MenuLoad extends Menu
 
         File[] files = null;
 
-        String ChosenSurveyTestName = "";
+        String ChosenSurveyTestName = null;
 
-        while (ChosenSurveyTestName.equals(""))
+        while (ChosenSurveyTestName == null)
         {
 
             try
@@ -57,20 +57,30 @@ public class MenuLoad extends Menu
 
                 int FileNum = 1;
 
-                for (File file : files)
+                if (files.length == 0)
                 {
-                    String CurFileName = file.getName();
-
-                    FilesInDir.add(CurFileName);
-
-                    ConsoleManager.getInstance().Display(FileNum + ".\t" + CurFileName);
-
-                    FileNum++;
+                    ChosenSurveyTestName = "";
+                    ConsoleManager.getInstance().Display("");
+                    ConsoleManager.getInstance().Display("No Surveys or Tests have been created yet");
+                    ConsoleManager.getInstance().Display("");
                 }
+                else
+                {
+                    for (File file : files)
+                    {
+                        String CurFileName = file.getName();
 
-                int ChosenSurveyTestNum = Integer.parseInt(ConsoleManager.getInstance().Read());
+                        FilesInDir.add(CurFileName);
 
-                ChosenSurveyTestName = FilesInDir.get(ChosenSurveyTestNum - 1);
+                        ConsoleManager.getInstance().Display(FileNum + ".\t" + CurFileName);
+
+                        FileNum++;
+                    }
+
+                    int ChosenSurveyTestNum = Integer.parseInt(ConsoleManager.getInstance().Read());
+
+                    ChosenSurveyTestName = FilesInDir.get(ChosenSurveyTestNum - 1);
+                }
             }
             catch (IndexOutOfBoundsException ioobe)
             {

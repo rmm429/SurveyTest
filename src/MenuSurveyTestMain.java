@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class MenuSurveyTestMain extends Menu
@@ -28,7 +29,38 @@ public class MenuSurveyTestMain extends Menu
                 survey.Save();
                 break;
             case 5:
-                System.exit(0);
+                survey.Modify();
+                break;
+            case 6:
+                survey.Take();
+                break;
+            case 7:
+                survey.Tabulate();
+                break;
+            case 8:
+
+                if (GetType().equals("Survey"))
+                {
+                    System.exit(0);
+                }
+                else if (GetType().equals("Test"))
+                {
+                    survey.Grade();
+                }
+
+                break;
+            case 9:
+
+                if (GetType().equals("Survey"))
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
+                else if (GetType().equals("Test"))
+                {
+                    System.exit(0);
+                }
+
                 break;
             default:
                 ConsoleManager.getInstance().Display("Invalid choice");
@@ -50,6 +82,9 @@ public class MenuSurveyTestMain extends Menu
             MenuChoices.add("Display a Survey");
             MenuChoices.add("Load a Survey");
             MenuChoices.add("Save a Survey");
+            MenuChoices.add("Modify an Existing Survey");
+            MenuChoices.add("Take a Survey");
+            MenuChoices.add("Tabulate a Survey");
             MenuChoices.add("Quit");
 
         }
@@ -62,6 +97,10 @@ public class MenuSurveyTestMain extends Menu
             MenuChoices.add("Display a Test");
             MenuChoices.add("Load a Test");
             MenuChoices.add("Save a Test");
+            MenuChoices.add("Modify an Existing Test");
+            MenuChoices.add("Take a Test");
+            MenuChoices.add("Tabulate a Test");
+            MenuChoices.add("Grade a Test");
             MenuChoices.add("Quit");
 
         }

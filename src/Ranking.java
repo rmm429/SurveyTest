@@ -13,7 +13,7 @@ public class Ranking extends MultipleChoice
             char Letter = (char) (i + 65);
 
             ConsoleManager.getInstance().Display("Enter choice " + Letter);
-            MCChoices.add(ConsoleManager.getInstance().Read());
+            AllChoices.add(ConsoleManager.getInstance().Read());
         }
 
         if (GetSurveyTestType().equals("Test"))
@@ -27,18 +27,23 @@ public class Ranking extends MultipleChoice
 
     }
 
+    public void EditChoice()
+    {
+
+    }
+
     public void GetCorrectChoice()
     {
 
         ArrayList<Integer> ChosenNums = new ArrayList<Integer>();
 
         //Adding blank elements to the ArrayList to fill it so that elements can be set out of order
-        for (int i = 0; i < MCChoices.size(); i++)
+        for (int i = 0; i < AllChoices.size(); i++)
         {
             CorrectChoices.add("");
         }
 
-        for (int i = 0; i < MCChoices.size(); i++)
+        for (int i = 0; i < AllChoices.size(); i++)
         {
 
             char Letter = (char) (i + 65);
@@ -49,7 +54,7 @@ public class Ranking extends MultipleChoice
             {
                 try
                 {
-                    ConsoleManager.getInstance().Display("Enter correct ranking for choice " + Letter + ": \"" + MCChoices.get(i) + "\" (1-" + MCChoices.size() + "):");
+                    ConsoleManager.getInstance().Display("Enter correct ranking for choice " + Letter + ": \"" + AllChoices.get(i) + "\" (1-" + AllChoices.size() + "):");
                     int CurCorrectChoiceIndex = Integer.parseInt(ConsoleManager.getInstance().Read()) - 1;
 
 
@@ -61,7 +66,7 @@ public class Ranking extends MultipleChoice
                     else
                     {
                         ChosenNums.add(CurCorrectChoiceIndex);
-                        String CurCorrectChoiceStr = MCChoices.get(i);
+                        String CurCorrectChoiceStr = AllChoices.get(i);
                         CorrectChoices.set(CurCorrectChoiceIndex, CurCorrectChoiceStr);
                         isCorrectChoices = true;
                     }
@@ -82,14 +87,11 @@ public class Ranking extends MultipleChoice
 
     }
 
-    public void Display()
+    public void DisplayChoices()
     {
-
-        ConsoleManager.getInstance().Display(GetPrompt().GetPrompt());
-
         char MCChoiceChar = 'A';
 
-        for (String MCChoice : MCChoices)
+        for (String MCChoice : AllChoices)
         {
             ConsoleManager.getInstance().Display(MCChoiceChar + ".\t" + MCChoice);
             MCChoiceChar++;
@@ -104,10 +106,8 @@ public class Ranking extends MultipleChoice
             DisplayCorrectChoice();
 
         }
-
     }
 
-    //COMMENT OUT
     public void DisplayCorrectChoice()
     {
         ConsoleManager.getInstance().Display("Correct Choice(s)");

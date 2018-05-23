@@ -126,7 +126,15 @@ public class InputCheck
             {
                 menu.DisplayMenu();
                 ChosenFile = ((MenuLoad) menu).DisplaySurveysFromFile(survey_test.getClass().getName());
-                ((MenuLoad) menu).GetChoice(ChosenFile, AllSurveyTest, survey_test, survey_test.getClass().getName());
+
+                if (ChosenFile.equals(""))
+                {
+                    survey_test.SetMenu(new MenuSurveyTestMain());
+                }
+                else
+                {
+                    ((MenuLoad) menu).GetChoice(ChosenFile, AllSurveyTest, survey_test, survey_test.getClass().getName());
+                }
 
                 Main.SetMenu(menu);
                 Main.SetSurveyTest(survey_test);
@@ -157,6 +165,35 @@ public class InputCheck
                 menu.DisplayMenu();
                 ChosenSurveyTest = menu.DisplaySurveys(AllSurveyTest, survey_test.getClass().getName());
                 ((MenuSave) menu).GetChoice(ChosenSurveyTest, AllSurveyTest, survey_test, survey_test.getClass().getName());
+
+                Main.SetMenu(menu);
+                Main.SetSurveyTest(survey_test);
+                Main.SetAllSurveyTest(AllSurveyTest);
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+    }
+
+    public void CheckMenuModify()
+    {
+
+        survey_test = Main.GetSurveyTest();
+        menu = Main.GetMenu();
+        AllSurveyTest = Main.GetAllSurveyTest();
+
+        String ChosenSurveyTest = "";
+
+        while (survey_test.GetMenu().getClass().getName().equals("MenuModify"))
+        {
+            try
+            {
+                menu.DisplayMenu();
+                ChosenSurveyTest = menu.DisplaySurveys(AllSurveyTest, survey_test.getClass().getName());
+                ((MenuModify) menu).GetChoice(ChosenSurveyTest, AllSurveyTest, survey_test, survey_test.getClass().getName());
 
                 Main.SetMenu(menu);
                 Main.SetSurveyTest(survey_test);

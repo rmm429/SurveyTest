@@ -4,8 +4,6 @@ import java.util.ArrayList;
 public class MultipleChoice extends Question
 {
 
-    protected ArrayList<String> MCChoices = new ArrayList<String>();
-
     public MultipleChoice()
     {
 
@@ -52,7 +50,7 @@ public class MultipleChoice extends Question
         for (int i = 0; i < choices; i++)
         {
             ConsoleManager.getInstance().Display("Enter choice #" + (i + 1));
-            MCChoices.add(ConsoleManager.getInstance().Read());
+            AllChoices.add(ConsoleManager.getInstance().Read());
         }
 
         if (GetSurveyTestType().equals("Test"))
@@ -62,6 +60,41 @@ public class MultipleChoice extends Question
 
         }
 
+    }
+
+    public void EditChoice()
+    {
+
+        String OldChoice = null;
+        int choice = 0;
+
+        while (OldChoice == null)
+        {
+            try
+            {
+                ConsoleManager.getInstance().Display("Which choice do you want to modify:");
+                DisplayChoices();
+                //65 = A
+                choice = Integer.parseInt(ConsoleManager.getInstance().Read());
+                OldChoice = AllChoices.get(choice - 1);
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            catch (IndexOutOfBoundsException ioobe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+
+
+        ConsoleManager.getInstance().Display("What is the new value for choice " + choice + ":");
+        String NewChoice = ConsoleManager.getInstance().Read();
+
+        AllChoices.set(choice - 1, NewChoice);
     }
 
     public void GetCorrectChoices()
@@ -82,7 +115,7 @@ public class MultipleChoice extends Question
                 ConsoleManager.getInstance().Display("Enter number of correct choices:");
                 CorrectChoicesNum = Integer.parseInt(ConsoleManager.getInstance().Read());
 
-                if (CorrectChoicesNum <= 0 || CorrectChoicesNum >= MCChoices.size())
+                if (CorrectChoicesNum <= 0 || CorrectChoicesNum >= AllChoices.size())
                 {
                     ConsoleManager.getInstance().Display("Invalid choice");
                     ConsoleManager.getInstance().Display("");
@@ -117,7 +150,7 @@ public class MultipleChoice extends Question
                     if (CorrectChoicesNum == 1)
                     {
                         ConsoleManager.getInstance().Display("Enter correct choice:");
-                        CorrectChoice = MCChoices.get(Integer.parseInt(ConsoleManager.getInstance().Read()) - 1);
+                        CorrectChoice = AllChoices.get(Integer.parseInt(ConsoleManager.getInstance().Read()) - 1);
                         isCorrectChoices = true;
                     }
                     else
@@ -128,7 +161,7 @@ public class MultipleChoice extends Question
                             isCorrectChoices = false;
 
                             ConsoleManager.getInstance().Display("Enter correct choice #" + i + ":");
-                            CorrectChoice = MCChoices.get(Integer.parseInt(ConsoleManager.getInstance().Read()) - 1);
+                            CorrectChoice = AllChoices.get(Integer.parseInt(ConsoleManager.getInstance().Read()) - 1);
 
                             if (ChosenChoices.contains(CorrectChoice))
                             {
@@ -160,14 +193,11 @@ public class MultipleChoice extends Question
             }
         }
 
-    public void Display()
+    public void DisplayChoices()
     {
-
-        ConsoleManager.getInstance().Display(GetPrompt().GetPrompt());
-
         int MCChoiceNum = 0;
 
-        for (String MCChoice : MCChoices)
+        for (String MCChoice : AllChoices)
         {
             MCChoiceNum++;
             ConsoleManager.getInstance().Display(MCChoiceNum + ".\t" + MCChoice);
@@ -181,7 +211,6 @@ public class MultipleChoice extends Question
             DisplayCorrectChoices();
 
         }
-
     }
 
     public void DisplayCorrectChoices()

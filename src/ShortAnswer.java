@@ -53,6 +53,11 @@ public class ShortAnswer extends Essay
 
     }
 
+    public void EditChoice()
+    {
+
+    }
+
     public void GetCorrectChoice()
     {
 
@@ -64,22 +69,6 @@ public class ShortAnswer extends Essay
             CorrectChoice = CorrectChoice.toUpperCase();
 
             CorrectChoices.add(CorrectChoice);
-        }
-
-    }
-
-    public void Display()
-    {
-
-        ConsoleManager.getInstance().Display(GetPrompt().GetPrompt());
-
-        ConsoleManager.getInstance().Display("");
-
-        if (GetSurveyTestType().equals("Test"))
-        {
-
-            DisplayCorrectChoice();
-
         }
 
     }
