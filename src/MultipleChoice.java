@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.util.ArrayList;
 
 public class MultipleChoice extends Question
@@ -57,37 +58,107 @@ public class MultipleChoice extends Question
         if (GetSurveyTestType().equals("Test"))
         {
 
-            GetCorrectChoice();
+            GetCorrectChoices();
 
         }
 
     }
 
-    public void GetCorrectChoice()
+    public void GetCorrectChoices()
     {
 
-        boolean isCorrectChoices = false;
+        int CorrectChoicesNum = 0;
 
-        while (isCorrectChoices == false)
+        boolean isNum = false;
+
+        while (isNum == false)
         {
+
+            isNum = false;
+
             try
             {
-                ConsoleManager.getInstance().Display("Enter correct choice:");
-                CorrectChoice = MCChoices.get(Integer.parseInt(ConsoleManager.getInstance().Read()) - 1);
-                isCorrectChoices = true;
+
+                ConsoleManager.getInstance().Display("Enter number of correct choices:");
+                CorrectChoicesNum = Integer.parseInt(ConsoleManager.getInstance().Read());
+
+                if (CorrectChoicesNum <= 0 || CorrectChoicesNum >= MCChoices.size())
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
+                else
+                {
+                    isNum = true;
+                }
+
             }
             catch (NumberFormatException nfe)
             {
                 ConsoleManager.getInstance().Display("Invalid choice");
                 ConsoleManager.getInstance().Display("");
             }
-            catch (IndexOutOfBoundsException ioobe)
-            {
-                ConsoleManager.getInstance().Display("Invalid choice");
-                ConsoleManager.getInstance().Display("");
+        }
+
+        ArrayList<String> ChosenChoices = new ArrayList<String>();
+
+        boolean isCorrectChoices = false;
+
+        int i = 1;
+
+        while (isCorrectChoices == false)
+        {
+
+            isCorrectChoices = false;
+
+                try
+                {
+
+                    if (CorrectChoicesNum == 1)
+                    {
+                        ConsoleManager.getInstance().Display("Enter correct choice:");
+                        CorrectChoice = MCChoices.get(Integer.parseInt(ConsoleManager.getInstance().Read()) - 1);
+                        isCorrectChoices = true;
+                    }
+                    else
+                    {
+                        while (i <= CorrectChoicesNum)
+                        {
+
+                            isCorrectChoices = false;
+
+                            ConsoleManager.getInstance().Display("Enter correct choice #" + i + ":");
+                            CorrectChoice = MCChoices.get(Integer.parseInt(ConsoleManager.getInstance().Read()) - 1);
+
+                            if (ChosenChoices.contains(CorrectChoice))
+                            {
+                                ConsoleManager.getInstance().Display("Invalid choice");
+                                ConsoleManager.getInstance().Display("");
+                            }
+                            else
+                            {
+                                ChosenChoices.add(CorrectChoice);
+                                CorrectChoices.add(CorrectChoice);
+                                isCorrectChoices = true;
+                                i++;
+                            }
+
+                        }
+                    }
+
+                }
+                catch (NumberFormatException nfe)
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
+                catch (IndexOutOfBoundsException ioobe)
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
             }
         }
-    }
 
     public void Display()
     {
@@ -107,17 +178,27 @@ public class MultipleChoice extends Question
         if (GetSurveyTestType().equals("Test"))
         {
 
-            DisplayCorrectChoice();
+            DisplayCorrectChoices();
 
         }
 
     }
 
-    public void DisplayCorrectChoice()
+    public void DisplayCorrectChoices()
     {
-        ConsoleManager.getInstance().Display("Correct Choice(s)");
-        ConsoleManager.getInstance().Display(CorrectChoice);
-        ConsoleManager.getInstance().Display("");
+        if (CorrectChoices.isEmpty())
+        {
+            ConsoleManager.getInstance().Display("Correct Choice(s)");
+            ConsoleManager.getInstance().Display(CorrectChoice);
+            ConsoleManager.getInstance().Display("");
+        }
+        else
+        {
+            ConsoleManager.getInstance().Display("Correct Choice(s)");
+            ConsoleManager.getInstance().Display(CorrectChoices);
+            ConsoleManager.getInstance().Display("");
+        }
+
     }
 
     public void Edit() { }

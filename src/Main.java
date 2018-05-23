@@ -8,34 +8,18 @@ import java.util.Set;
 public class Main
 {
 
-    //public ArrayList<Menu> Menus;
-    //public Survey Survey;
+    private static Survey survey_test = null;
+    private static Menu menu = null;
+    private static HashMap<String, Survey> AllSurveyTest = new HashMap<String, Survey>();
 
     public static void main (String args[])
     {
 
-        HashMap<String, Survey> AllSurveyTest = new HashMap<String, Survey>();
-
-        Menu menu = new MenuMain();
+        menu = new MenuMain();
 
         menu.SetChoices();
 
-        Survey survey_test = null;
-
-        while (survey_test == null)
-        {
-            try
-            {
-                menu.DisplayMenu();
-                survey_test = ((MenuMain) menu).GetChoice(Integer.parseInt(ConsoleManager.getInstance().Read()));
-            }
-            catch (NumberFormatException nfe)
-            {
-                ConsoleManager.getInstance().Display("Invalid choice");
-                ConsoleManager.getInstance().Display("");
-            }
-        }
-
+        InputCheck.getInstance().isSurveyNull();
 
         menu = survey_test.GetMenu();
 
@@ -50,19 +34,7 @@ public class Main
 
         menu.SetChoices();
 
-        while (survey_test.GetMenu().getClass().getName().equals("MenuSurveyTestMain"))
-        {
-            try
-            {
-                menu.DisplayMenu();
-                ((MenuSurveyTestMain) menu).GetChoice(Integer.parseInt(ConsoleManager.getInstance().Read()), survey_test);
-            }
-            catch (NumberFormatException nfe)
-            {
-                ConsoleManager.getInstance().Display("Invalid choice");
-                ConsoleManager.getInstance().Display("");
-            }
-        }
+        InputCheck.getInstance().CheckMenuSurveyTestMain();
 
 
         while(true)
@@ -91,19 +63,7 @@ public class Main
 
                     menu.SetChoices();
 
-                    while (survey_test.GetMenu().getClass().getName().equals("MenuCreate"))
-                    {
-                        try
-                        {
-                            menu.DisplayMenu();
-                            ((MenuCreate) menu).GetChoice(Integer.parseInt(ConsoleManager.getInstance().Read()), survey_test);
-                        }
-                        catch (NumberFormatException nfe)
-                        {
-                            ConsoleManager.getInstance().Display("Invalid choice");
-                            ConsoleManager.getInstance().Display("");
-                        }
-                    }
+                    InputCheck.getInstance().CheckMenuCreate();
 
                     Survey copy = (Survey) Survey.Copy(survey_test);
 
@@ -126,24 +86,9 @@ public class Main
                     else
                     {
 
-                        String ChosenSurveyTest = "";
-
                         menu.SetChoices();
 
-                        while (survey_test.GetMenu().getClass().getName().equals("MenuDisplay"))
-                        {
-                            try
-                            {
-                                menu.DisplayMenu();
-                                ChosenSurveyTest = menu.DisplaySurveys(AllSurveyTest, survey_test.getClass().getName());
-                                ((MenuDisplay) menu).GetChoice(ChosenSurveyTest, AllSurveyTest, survey_test);
-                            }
-                            catch (NumberFormatException nfe)
-                            {
-                                ConsoleManager.getInstance().Display("Invalid choice");
-                                ConsoleManager.getInstance().Display("");
-                            }
-                        }
+                        InputCheck.getInstance().CheckMenuDisplay();
 
                     }
 
@@ -151,30 +96,9 @@ public class Main
 
                 case "MenuLoad":
 
-                    String ChosenFile = "";
-
                     menu.SetChoices();
 
-                    while (survey_test.GetMenu().getClass().getName().equals("MenuLoad"))
-                    {
-                        try
-                        {
-                            menu.DisplayMenu();
-                            ChosenFile = ((MenuLoad) menu).DisplaySurveysFromFile(survey_test.getClass().getName());
-                            ((MenuLoad) menu).GetChoice(ChosenFile, AllSurveyTest, survey_test, survey_test.getClass().getName());
-                        }
-                        catch (NumberFormatException nfe)
-                        {
-                            ConsoleManager.getInstance().Display("Invalid choice");
-                            ConsoleManager.getInstance().Display("");
-                        }
-
-                    }
-
-
-
-
-
+                    InputCheck.getInstance().CheckMenuLoad();
 
                     break;
 
@@ -193,24 +117,9 @@ public class Main
                     else
                     {
 
-                        String ChosenSurveyTest = "";
-
                         menu.SetChoices();
 
-                        while (survey_test.GetMenu().getClass().getName().equals("MenuSave"))
-                        {
-                            try
-                            {
-                                menu.DisplayMenu();
-                                ChosenSurveyTest = menu.DisplaySurveys(AllSurveyTest, survey_test.getClass().getName());
-                                ((MenuSave) menu).GetChoice(ChosenSurveyTest, AllSurveyTest, survey_test, survey_test.getClass().getName());
-                            }
-                            catch (NumberFormatException nfe)
-                            {
-                                ConsoleManager.getInstance().Display("Invalid choice");
-                                ConsoleManager.getInstance().Display("");
-                            }
-                        }
+                        InputCheck.getInstance().CheckMenuSave();
 
                     }
 
@@ -220,27 +129,43 @@ public class Main
 
                     menu.SetChoices();
 
-                    while (survey_test.GetMenu().getClass().getName().equals("MenuSurveyTestMain"))
-                    {
-                        try
-                        {
-                            menu.DisplayMenu();
-                            ((MenuSurveyTestMain) menu).GetChoice(Integer.parseInt(ConsoleManager.getInstance().Read()), survey_test);
-                        }
-                        catch (NumberFormatException nfe)
-                        {
-                            ConsoleManager.getInstance().Display("Invalid choice");
-                            ConsoleManager.getInstance().Display("");
-                        }
-                    }
+                    InputCheck.getInstance().CheckMenuSurveyTestMain();
 
                     break;
             }
 
         }
 
+    }
 
+    public static void SetSurveyTest(Survey st)
+    {
+        survey_test = st;
+    }
 
+    public static Survey GetSurveyTest()
+    {
+        return survey_test;
+    }
+
+    public static void SetMenu(Menu m)
+    {
+        menu = m;
+    }
+
+    public static Menu GetMenu()
+    {
+        return menu;
+    }
+
+    public static void SetAllSurveyTest(HashMap<String, Survey> ast)
+    {
+        AllSurveyTest = ast;
+    }
+
+    public static HashMap<String, Survey> GetAllSurveyTest()
+    {
+        return AllSurveyTest;
     }
 
 }

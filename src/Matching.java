@@ -3,6 +3,8 @@ import java.util.ArrayList;
 public class Matching extends Question
 {
 
+    protected static Matching instance = new Matching();
+
     protected ArrayList<String> MatchingTerms = new ArrayList<String>();
     protected ArrayList<String> MatchingDefs = new ArrayList<String>();
 
@@ -21,9 +23,18 @@ public class Matching extends Question
             {
                 ConsoleManager.getInstance().Display("Enter the number of terms and definitions for your matching question:");
                 terms_definitions = Integer.parseInt(ConsoleManager.getInstance().Read());
-                GetTerms(terms_definitions);
-                GetDefinitions(terms_definitions);
-                isCorrectChoice = true;
+
+                if (terms_definitions > 0)
+                {
+                    GetTerms(terms_definitions);
+                    GetDefinitions(terms_definitions);
+                    isCorrectChoice = true;
+                }
+                else
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
             }
             catch (NumberFormatException nfe)
             {
@@ -44,21 +55,77 @@ public class Matching extends Question
 
     public void GetTerms(int terms)
     {
+
+        ArrayList<String> ChosenTerms = new ArrayList<String>();
+
+        boolean isNewTerm = false;
+
+        String CurTerm = null;
+
         for (int i = 0; i < terms; i++)
         {
-            ConsoleManager.getInstance().Display("Enter term #" + (i + 1));
-            MatchingTerms.add(ConsoleManager.getInstance().Read());
+
+            isNewTerm = false;
+
+            while (isNewTerm == false)
+            {
+
+                ConsoleManager.getInstance().Display("Enter term #" + (i + 1));
+                CurTerm = ConsoleManager.getInstance().Read();
+
+                if (ChosenTerms.contains(CurTerm))
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
+                else
+                {
+                    ChosenTerms.add(CurTerm);
+                    MatchingTerms.add(CurTerm);
+                    isNewTerm = true;
+                }
+
+            }
+
         }
 
     }
 
     public void GetDefinitions(int defs)
     {
+
+        ArrayList<String> ChosenDefs = new ArrayList<String>();
+
+        boolean isNewDef = false;
+
+        String CurDef = null;
+
         for (int i = 0; i < defs; i++)
         {
-            char letter = (char) (i + 65);
-            ConsoleManager.getInstance().Display("Enter definition " + letter);
-            MatchingDefs.add(ConsoleManager.getInstance().Read());
+
+            isNewDef = false;
+
+            while (isNewDef == false)
+            {
+
+                char letter = (char) (i + 65);
+                ConsoleManager.getInstance().Display("Enter definition " + letter);
+                CurDef = ConsoleManager.getInstance().Read();
+
+                if (ChosenDefs.contains(CurDef))
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
+                else
+                {
+                    ChosenDefs.add(CurDef);
+                    MatchingDefs.add(CurDef);
+                    isNewDef = true;
+                }
+
+            }
+
         }
 
     }
@@ -154,5 +221,10 @@ public class Matching extends Question
     public void GetQuestionType() { }
 
     public void Serialize() { }
+
+    public static Matching getInstance()
+    {
+        return instance;
+    }
 
 }
