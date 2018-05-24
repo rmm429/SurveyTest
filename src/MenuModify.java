@@ -19,7 +19,7 @@ public class MenuModify extends Menu
     public void GetChoice(String name, HashMap<String, Survey> all, Survey survey, String SurveyTestType)
     {
         Survey ChosenSurveyTest = all.get(name);
-        ChosenSurveyTest.ModifySurvey();
+        ChosenSurveyTest.ModifySurvey(SurveyTestType);
         survey.SetMenu(new MenuSurveyTestMain());
     }
 }

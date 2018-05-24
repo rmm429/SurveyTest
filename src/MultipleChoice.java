@@ -74,7 +74,6 @@ public class MultipleChoice extends Question
             {
                 ConsoleManager.getInstance().Display("Which choice do you want to modify:");
                 DisplayChoices();
-                //65 = A
                 choice = Integer.parseInt(ConsoleManager.getInstance().Read());
                 OldChoice = AllChoices.get(choice - 1);
             }

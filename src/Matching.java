@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Matching extends Question
@@ -132,7 +133,59 @@ public class Matching extends Question
 
     public void EditChoice()
     {
+        String OldChoice = null;
+        String ChoiceStr = null;
+        char ChoiceChar = 0;
+        int choice = 0;
 
+        int LastNum = MatchingDefs.size();
+        char LastChar = (char) (LastNum + 64);
+
+        while (OldChoice == null)
+        {
+            try
+            {
+                ConsoleManager.getInstance().Display("Which choice do you want to modify:");
+                DisplayChoices();
+                ChoiceStr = ConsoleManager.getInstance().Read();
+                ChoiceChar = ChoiceStr.charAt(0);
+                choice = ChoiceChar - 48;
+
+                //Term
+                if ( choice >= 1 && choice <= LastNum)
+                {
+                    OldChoice = MatchingTerms.get(choice - 1);
+                    ConsoleManager.getInstance().Display("What is the new value for term " + choice + ":");
+                    String NewChoice = ConsoleManager.getInstance().Read();
+                    MatchingTerms.set(choice - 1, NewChoice);
+                }
+                //Definition
+                else if ( ChoiceChar >= 'A' && ChoiceChar <= LastChar)
+                {
+                    OldChoice = MatchingDefs.get(ChoiceChar - 65);
+                    ConsoleManager.getInstance().Display("What is the new value for definition " + ChoiceChar + ":");
+                    String NewChoice = ConsoleManager.getInstance().Read();
+                    MatchingDefs.set(ChoiceChar - 65, NewChoice);
+                }
+                else
+                {
+                    ConsoleManager.getInstance().Display("Invalid choice");
+                    ConsoleManager.getInstance().Display("");
+                }
+
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            catch (IndexOutOfBoundsException ioobe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+
+        }
     }
 
     public void GetCorrectChoices(int terms_defs)

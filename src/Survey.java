@@ -180,7 +180,7 @@ public class Survey implements Serializable
         SetMenu(new MenuModify());
     }
 
-    public void ModifySurvey()
+    public void ModifySurvey(String SurveyTestType)
     {
 
         Question SelectedQuestion = null;
@@ -216,12 +216,13 @@ public class Survey implements Serializable
             }
         }
 
-        EditQuestion(SelectedQuestion);
+        EditQuestion(SelectedQuestion, SurveyTestType);
 
 
     }
 
-    public void DisplayQuestions() {
+    public void DisplayQuestions()
+    {
 
         int i = 1;
 
@@ -236,14 +237,21 @@ public class Survey implements Serializable
 
     }
 
-    public void EditQuestion(Question q)
+    public void EditQuestion(Question q, String SurveyTestType)
     {
+
+        SetQuestionType(q.getClass().getName());
 
         EditPrompt(q);
 
-        if (!GetQuestionType().equals("True/False"))
+        if (!GetQuestionType().equals("True/False") && !GetQuestionType().equals("Essay"))
         {
             EditChoices(q);
+        }
+
+        if (SurveyTestType.equals("Test"))
+        {
+            //EDIT CORRECT CHOICES
         }
 
     }

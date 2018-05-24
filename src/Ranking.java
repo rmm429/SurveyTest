@@ -29,7 +29,36 @@ public class Ranking extends MultipleChoice
 
     public void EditChoice()
     {
+        String OldChoice = null;
+        String ChoiceStr;
+        char ChoiceChar = 0;
 
+        while (OldChoice == null)
+        {
+            try
+            {
+                ConsoleManager.getInstance().Display("Which choice do you want to modify:");
+                DisplayChoices();
+                ChoiceStr = ConsoleManager.getInstance().Read();
+                ChoiceChar = ChoiceStr.charAt(0);
+                OldChoice = AllChoices.get(ChoiceChar - 65);
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            catch (IndexOutOfBoundsException ioobe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+
+        ConsoleManager.getInstance().Display("What is the new value for choice " + ChoiceChar + ":");
+        String NewChoice = ConsoleManager.getInstance().Read();
+
+        AllChoices.set(ChoiceChar - 65, NewChoice);
     }
 
     public void GetCorrectChoice()
