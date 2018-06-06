@@ -65,11 +65,22 @@ public abstract class Question implements Serializable
         ConsoleManager.getInstance().Display(GetPrompt().GetPrompt());
         DisplayChoices();
 
+        if (GetSurveyTestType().equals("Test"))
+        {
+            DisplayCorrectChoices();
+        }
+
     }
 
     public abstract void DisplayChoices();
 
+    public abstract void DisplayCorrectChoices();
+
     public abstract void EditChoice();
+
+    public abstract void EditCorrectChoices();
+
+    public abstract ArrayList<String> Take();
 
 
 }

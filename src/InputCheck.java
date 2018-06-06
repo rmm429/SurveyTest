@@ -207,6 +207,93 @@ public class InputCheck
         }
     }
 
+    public void CheckMenuTake()
+    {
+
+        survey_test = Main.GetSurveyTest();
+        menu = Main.GetMenu();
+        AllSurveyTest = Main.GetAllSurveyTest();
+
+        String ChosenSurveyTest = "";
+
+        while (survey_test.GetMenu().getClass().getName().equals("MenuTake"))
+        {
+            try
+            {
+                menu.DisplayMenu();
+                ChosenSurveyTest = menu.DisplaySurveys(AllSurveyTest, survey_test.getClass().getName());
+                ((MenuTake) menu).GetChoice(ChosenSurveyTest, AllSurveyTest, survey_test, survey_test.getClass().getName());
+
+                Main.SetMenu(menu);
+                Main.SetSurveyTest(survey_test);
+                Main.SetAllSurveyTest(AllSurveyTest);
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+    }
+
+    public void CheckMenuTabulate()
+    {
+
+        survey_test = Main.GetSurveyTest();
+        menu = Main.GetMenu();
+        AllSurveyTest = Main.GetAllSurveyTest();
+
+        String ChosenSurveyTest = "";
+
+        while (survey_test.GetMenu().getClass().getName().equals("MenuTabulate"))
+        {
+            try
+            {
+                menu.DisplayMenu();
+                ChosenSurveyTest = menu.DisplaySurveys(AllSurveyTest, survey_test.getClass().getName());
+                ((MenuTabulate) menu).GetChoice(ChosenSurveyTest, AllSurveyTest, survey_test, survey_test.getClass().getName());
+
+                Main.SetMenu(menu);
+                Main.SetSurveyTest(survey_test);
+                Main.SetAllSurveyTest(AllSurveyTest);
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+    }
+
+    public void CheckMenuGrade()
+    {
+
+        survey_test = Main.GetSurveyTest();
+        menu = Main.GetMenu();
+        AllSurveyTest = Main.GetAllSurveyTest();
+
+        String ChosenSurveyTest = "";
+
+        while (survey_test.GetMenu().getClass().getName().equals("MenuTabulate"))
+        {
+            try
+            {
+                menu.DisplayMenu();
+                ChosenSurveyTest = menu.DisplaySurveys(AllSurveyTest, survey_test.getClass().getName());
+                ((MenuGrade) menu).GetChoice(ChosenSurveyTest, AllSurveyTest, survey_test, survey_test.getClass().getName());
+
+                Main.SetMenu(menu);
+                Main.SetSurveyTest(survey_test);
+                Main.SetAllSurveyTest(AllSurveyTest);
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+    }
+
     public static InputCheck getInstance()
     {
         return instance;

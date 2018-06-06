@@ -1,5 +1,10 @@
+import java.util.ArrayList;
+
 public class ShortAnswer extends Essay
 {
+
+    //Setting a Serializaiton ID to ensure objects can be serialzied/deserialized from any execution instance of the program
+    private static final long serialVersionUID = 6529685098267757690L;
 
     private int responses;
 
@@ -73,11 +78,28 @@ public class ShortAnswer extends Essay
 
     }
 
-    public void DisplayCorrectChoice()
+    public void DisplayCorrectChoices()
     {
         ConsoleManager.getInstance().Display("Correct Choice(s)");
         ConsoleManager.getInstance().Display(CorrectChoices);
         ConsoleManager.getInstance().Display("");
+    }
+
+    public ArrayList<String> GetResponse()
+    {
+
+        ArrayList<String> UserResponse = new ArrayList<String>();
+
+        for (int i = 0; i < responses; i++)
+        {
+            ConsoleManager.getInstance().Display("Enter your answer for response #" + (i + 1) + ":");
+            ConsoleManager.getInstance().Display("");
+
+            UserResponse.add(ConsoleManager.getInstance().Read());
+        }
+
+        return UserResponse;
+
     }
 
     public void SetResponses(int r)

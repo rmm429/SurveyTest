@@ -4,6 +4,9 @@ import java.util.ArrayList;
 public class Ranking extends MultipleChoice
 {
 
+    //Setting a Serializaiton ID to ensure objects can be serialzied/deserialized from any execution instance of the program
+    private static final long serialVersionUID = 6529685098267757690L;
+
     public Ranking() { }
 
     public void GetChoices(int choices)
@@ -55,10 +58,40 @@ public class Ranking extends MultipleChoice
             }
         }
 
-        ConsoleManager.getInstance().Display("What is the new value for choice " + ChoiceChar + ":");
-        String NewChoice = ConsoleManager.getInstance().Read();
+        String NewChoice = null;
 
-        AllChoices.set(ChoiceChar - 65, NewChoice);
+        while (NewChoice == null)
+        {
+            try
+            {
+                ConsoleManager.getInstance().Display("What is the new value for choice " + ChoiceChar + ":");
+                NewChoice = ConsoleManager.getInstance().Read();
+
+                AllChoices.set(ChoiceChar - 65, NewChoice);
+
+                if (!CorrectChoices.isEmpty())
+                {
+                    if (CorrectChoices.contains(OldChoice))
+                    {
+                        CorrectChoices.set(CorrectChoices.indexOf(OldChoice), NewChoice);
+                    }
+                }
+
+            }
+            catch (NumberFormatException nfe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            catch (IndexOutOfBoundsException ioobe)
+            {
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+
+
+
     }
 
     public void GetCorrectChoice()
@@ -127,21 +160,72 @@ public class Ranking extends MultipleChoice
         }
 
         ConsoleManager.getInstance().Display("");
-
-        if (GetSurveyTestType().equals("Test"))
-        {
-
-
-            DisplayCorrectChoice();
-
-        }
     }
 
-    public void DisplayCorrectChoice()
+    public void DisplayCorrectChoices()
     {
         ConsoleManager.getInstance().Display("Correct Choice(s)");
         ConsoleManager.getInstance().Display(CorrectChoices);
         ConsoleManager.getInstance().Display("");
+    }
+
+    public ArrayList<String> GetResponse()
+    {
+
+        int UserResponseNum = 0;
+        ArrayList<String> UserResponse = new ArrayList<String>();
+
+        boolean contains = true;
+
+        for (int i = 0; i < AllChoices.size(); i++)
+        {
+
+            try
+            {
+
+                contains = true;
+
+                while (contains == true)
+                {
+
+                    char CurChoiceLetter = (char) (i + 65);
+                    ConsoleManager.getInstance().Display("Rank choice " + CurChoiceLetter + " (1-" + AllChoices.size() + "):");
+                    UserResponseNum = Integer.parseInt(ConsoleManager.getInstance().Read());
+
+                    if (!UserResponse.contains(AllChoices.get(UserResponseNum - 1)))
+                    {
+                        UserResponse.add(AllChoices.get(UserResponseNum - 1));
+                        contains = false;
+                    }
+                    else
+                    {
+                        ConsoleManager.getInstance().Display("Invalid choice");
+                        ConsoleManager.getInstance().Display("");
+                    }
+
+                }
+
+            }
+            catch (NumberFormatException nfe)
+            {
+
+                i--;
+
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            catch (IndexOutOfBoundsException ioobe)
+            {
+                i--;
+
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+        }
+
+
+        return UserResponse;
+
     }
 
     public void Edit() { }

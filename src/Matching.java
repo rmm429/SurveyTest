@@ -4,6 +4,9 @@ import java.util.ArrayList;
 public class Matching extends Question
 {
 
+    //Setting a Serializaiton ID to ensure objects can be serialzied/deserialized from any execution instance of the program
+    private static final long serialVersionUID = 6529685098267757690L;
+
     protected static Matching instance = new Matching();
 
     protected ArrayList<String> MatchingTerms = new ArrayList<String>();
@@ -166,6 +169,15 @@ public class Matching extends Question
                     ConsoleManager.getInstance().Display("What is the new value for definition " + ChoiceChar + ":");
                     String NewChoice = ConsoleManager.getInstance().Read();
                     MatchingDefs.set(ChoiceChar - 65, NewChoice);
+
+                    if (!CorrectChoices.isEmpty())
+                    {
+                        if (CorrectChoices.contains(OldChoice))
+                        {
+                            CorrectChoices.set(CorrectChoices.indexOf(OldChoice), NewChoice);
+                        }
+                    }
+
                 }
                 else
                 {
@@ -255,12 +267,6 @@ public class Matching extends Question
 
         ConsoleManager.getInstance().Display("");
 
-        if (GetSurveyTestType().equals("Test"))
-        {
-
-            DisplayCorrectChoices();
-
-        }
     }
 
     //COMMENT OUT
@@ -269,6 +275,89 @@ public class Matching extends Question
         ConsoleManager.getInstance().Display("Correct Choice(s)");
         ConsoleManager.getInstance().Display(CorrectChoices);
         ConsoleManager.getInstance().Display("");
+    }
+
+    public void EditCorrectChoices()
+    {
+
+    }
+
+    public ArrayList<String> Take()
+    {
+        prompt.Display();
+        ConsoleManager.getInstance().Display("");
+
+        DisplayChoices();
+
+        ArrayList<String> UserResponse = GetResponse();
+
+        return UserResponse;
+    }
+
+    public ArrayList<String> GetResponse()
+    {
+
+        String UserResponseStr = null;
+        char UserResponseChar;
+        int UserResponseIndex;
+        ArrayList<String> UserResponse = new ArrayList<String>();
+
+        boolean contains = true;
+
+        char LastDefChar = (char) (MatchingDefs.size() + 64);
+
+        for (int i = 0; i < MatchingTerms.size(); i++)
+        {
+
+            try
+            {
+
+                contains = true;
+
+                while (contains == true)
+                {
+
+                    ConsoleManager.getInstance().Display("Match a definition to term #" + (i + 1) + " (A-" + LastDefChar + "):");
+
+                    UserResponseStr = ConsoleManager.getInstance().Read();
+                    UserResponseChar = UserResponseStr.charAt(0);
+                    UserResponseIndex = UserResponseChar - 65;
+
+                    if (!UserResponse.contains(MatchingDefs.get(UserResponseIndex)))
+                    {
+                        UserResponse.add(MatchingDefs.get(UserResponseIndex));
+                        contains = false;
+                    }
+                    else
+                    {
+
+                        ConsoleManager.getInstance().Display("Invalid choice");
+                        ConsoleManager.getInstance().Display("");
+                    }
+
+                }
+
+            }
+            catch (NumberFormatException nfe)
+            {
+
+                i--;
+
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+            catch (IndexOutOfBoundsException ioobe)
+            {
+                i--;
+
+                ConsoleManager.getInstance().Display("Invalid choice");
+                ConsoleManager.getInstance().Display("");
+            }
+
+        }
+
+        return UserResponse;
+
     }
 
     public void Edit() { }

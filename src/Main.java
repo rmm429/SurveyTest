@@ -148,6 +148,78 @@ public class Main
 
                     break;
 
+                case "MenuTake":
+
+                    if (keysArray.length == 0)
+                    {
+                        ConsoleManager.getInstance().Display("No Surveys or Tests have been created yet");
+                        ConsoleManager.getInstance().Display("");
+                        survey_test.SetMenu(new MenuSurveyTestMain());
+                    }
+                    else if (keysArray.length == 1)
+                    {
+                        ((MenuTake) menu).GetChoice(keysArray[0], AllSurveyTest, survey_test, survey_test.getClass().getName());
+                    }
+                    else
+                    {
+
+                        menu.SetChoices();
+
+                        InputCheck.getInstance().CheckMenuTake();
+
+                    }
+
+                    break;
+
+                case "MenuTabulate":
+
+                    if (keysArray.length == 0)
+                    {
+                        ConsoleManager.getInstance().Display("No Surveys or Tests have been created yet");
+                        ConsoleManager.getInstance().Display("");
+                        survey_test.SetMenu(new MenuSurveyTestMain());
+                    }
+                    else if (keysArray.length == 1)
+                    {
+                        ((MenuTabulate) menu).GetChoice(keysArray[0], AllSurveyTest, survey_test, survey_test.getClass().getName());
+                    }
+                    else
+                    {
+
+                        menu.SetChoices();
+
+                        InputCheck.getInstance().CheckMenuTabulate();
+
+                    }
+
+                    break;
+
+                case "MenuGrade":
+
+                    if (keysArray.length == 0)
+                    {
+                        ConsoleManager.getInstance().Display("No Surveys or Tests have been created yet");
+                        ConsoleManager.getInstance().Display("");
+                        survey_test.SetMenu(new MenuSurveyTestMain());
+                    }
+                    else if (keysArray.length == 1)
+                    {
+                        ((MenuGrade) menu).GetChoice(keysArray[0], AllSurveyTest, survey_test, survey_test.getClass().getName());
+                    }
+                    else
+                    {
+
+                        menu.SetChoices();
+
+                        InputCheck.getInstance().CheckMenuGrade();
+
+                    }
+
+                    break;
+
+
+
+
                 case "MenuSurveyTestMain":
 
                     menu.SetChoices();
